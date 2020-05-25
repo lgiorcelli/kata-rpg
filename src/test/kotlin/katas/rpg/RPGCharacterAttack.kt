@@ -11,8 +11,8 @@ class RPGCharacterAttack {
     @Test
     fun `should deal damage to other character`() {
         val expectedHealth = 900
-        val attacker = RPGCharacter()
-        val attacked = RPGCharacter()
+        val attacker = aCharacter()
+        val attacked = aCharacter()
 
         attacker.attack(attacked, minimumRange)
 
@@ -23,7 +23,7 @@ class RPGCharacterAttack {
 
     @Test
     fun `should not deal damage to itself`() {
-        val attacker = RPGCharacter()
+        val attacker = aCharacter()
         val initialHealth = attacker.health
 
         attacker.attack(attacker, minimumRange)
@@ -31,6 +31,10 @@ class RPGCharacterAttack {
         with(attacker) {
             Assertions.assertEquals(initialHealth, health)
         }
+    }
+
+    private fun aCharacter(): RPGCharacter {
+        return CharacterMother.aCharacter()
     }
 
     @Test

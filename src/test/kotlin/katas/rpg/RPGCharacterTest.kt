@@ -8,7 +8,7 @@ class RPGCharacterTest {
 
     @Test
     fun `should create a character with health and alive`() {
-        val character = RPGCharacter()
+        val character = CharacterMother.aCharacter()
 
         with(character) {
             assertEquals(1000, health)
@@ -22,7 +22,7 @@ class RPGCharacterTest {
     @Test
     fun `should limit minimun health to zero`() {
         val attacker = RPGCharacter(damageAmount = 2000)
-        val attacked = RPGCharacter()
+        val attacked = CharacterMother.aCharacter()
 
         attacker.attack(attacked, 1)
 
