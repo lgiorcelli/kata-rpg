@@ -9,7 +9,7 @@ class RPGCharacterTest {
 
     @Test
     fun `should create a character with health and alive`() {
-        val character = aCharacter()
+        val character = RPGCharacter()
 
         with(character) {
             assertEquals(1000, health)
@@ -21,8 +21,8 @@ class RPGCharacterTest {
     @Test
     fun `should deal damage to other character`() {
         val expectedHealth = 900
-        val attacker = aCharacter()
-        val attacked = aCharacter()
+        val attacker = RPGCharacter()
+        val attacked = RPGCharacter()
 
         attacker.attack(attacked)
 
@@ -33,8 +33,8 @@ class RPGCharacterTest {
 
     @Test
     fun `should limit minimun health to zero`() {
-        val attacker = aCharacter(damageAmount = 2000)
-        val attacked = aCharacter()
+        val attacker = RPGCharacter(damageAmount = 2000)
+        val attacked = RPGCharacter()
 
         attacker.attack(attacked)
 
@@ -46,7 +46,7 @@ class RPGCharacterTest {
     @Test
     fun `should be capable of healing another character`() {
         val healer = RPGCharacter(healingAmount = 100)
-        val damagedCharacter = aCharacter(initialHealth = 500)
+        val damagedCharacter = RPGCharacter(health = 500)
 
         healer.heal(damagedCharacter)
 
@@ -59,17 +59,13 @@ class RPGCharacterTest {
     fun `should be capable of healing another character until max healing value`() {
         val maxValidHealth = 1000
         val healer = RPGCharacter(healingAmount = 1000)
-        val damagedCharacter = aCharacter(initialHealth = 500)
+        val damagedCharacter = RPGCharacter(health = 500)
 
         healer.heal(damagedCharacter)
 
         with(damagedCharacter) {
             assertEquals(maxValidHealth, health)
         }
-    }
-
-    private fun aCharacter(initialHealth: Int = 1000, damageAmount: Int = 100): RPGCharacter {
-        return RPGCharacter(initialHealth, 1, damageAmount = damageAmount)
     }
 
 }
