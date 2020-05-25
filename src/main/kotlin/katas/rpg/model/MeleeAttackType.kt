@@ -1,7 +1,5 @@
 package katas.rpg.model
 
-import katas.rpg.model.RPGCharacter
-
 class MeleeAttackType(private val damageAmount: Int, private val maxRange: Int) {
 
     fun calculateDamageAmount(attacker: RPGCharacter, attacked: RPGCharacter, distance: Int): Int {

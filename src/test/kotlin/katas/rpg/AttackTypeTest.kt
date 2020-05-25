@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class RPGCharacterAttack {
+class AttackTypeTest {
 
     private val minimumRange = 1
 

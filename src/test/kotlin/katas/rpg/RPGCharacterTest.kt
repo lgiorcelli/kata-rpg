@@ -1,5 +1,8 @@
 package katas.rpg
 
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import katas.rpg.model.MeleeAttackType
 import katas.rpg.model.RPGCharacter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -55,5 +58,15 @@ class RPGCharacterTest {
         }
     }
 
+    @Test
+    fun `should delegate attack to its type`() {
+        val attackType: MeleeAttackType = mock()
+        val attacker = RPGCharacter(attackType = attackType)
+        val attacked = RPGCharacter()
+
+        attacker.attack(attacked, 1)
+
+        verify(attackType).calculateDamageAmount(attacker, attacked, 1)
+    }
 }
 
