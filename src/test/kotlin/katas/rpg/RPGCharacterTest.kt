@@ -9,7 +9,7 @@ class RPGCharacterTest {
 
     @Test
     fun `should create a character with health and alive`() {
-        val character = aCharacter(100)
+        val character = aCharacter()
 
         with(character) {
             assertEquals(1000, health)
@@ -43,13 +43,44 @@ class RPGCharacterTest {
         }
     }
 
-    private fun aCharacter(damageAmount: Int = 100): RPGCharacter {
-        return RPGCharacter(1000, 1, damageAmount = damageAmount)
+    @Test
+    fun `should be capable of healing another character`() {
+        val healer = RPGCharacter(healingAmount = 100)
+        val damagedCharacter = aCharacter(initialHealth = 500)
+
+        healer.heal(damagedCharacter)
+
+        with(damagedCharacter) {
+            assertEquals(600, health)
+        }
+    }
+
+    @Test
+    fun `should be capable of healing another character until max healing value`() {
+        val maxValidHealth = 1000
+        val healer = RPGCharacter(healingAmount = 1000)
+        val damagedCharacter = aCharacter(initialHealth = 500)
+
+        healer.heal(damagedCharacter)
+
+        with(damagedCharacter) {
+            assertEquals(maxValidHealth, health)
+        }
+    }
+
+    private fun aCharacter(initialHealth: Int = 1000, damageAmount: Int = 100): RPGCharacter {
+        return RPGCharacter(initialHealth, 1, damageAmount = damageAmount)
     }
 
 }
 
-class RPGCharacter(var health: Int, val level: Int, val damageAmount: Int = 100) {
+class RPGCharacter(
+        var health: Int = 1000,
+        val level: Int = 1,
+        val damageAmount: Int = 100,
+        private val healingAmount: Int = 100,
+        private val maxValidHealth:Int = 1000
+) {
     fun isAlive(): Boolean {
         return health > 0
     }
@@ -59,11 +90,15 @@ class RPGCharacter(var health: Int, val level: Int, val damageAmount: Int = 100)
     }
 
     private fun receiveDamage(damageAmount: Int) {
-        health = manageHealtUnderflow(damageAmount)
+        health = maxOf(0, health - damageAmount)
     }
 
-    private fun manageHealtUnderflow(damageAmount: Int): Int {
-        val healthAfterAttack = health - damageAmount
-        return if (healthAfterAttack < 0) 0 else healthAfterAttack
+    fun heal(damagedCharacter: RPGCharacter) {
+        damagedCharacter.beHealed(healingAmount)
     }
+
+    private fun beHealed(healingAmount: Int) {
+        this.health = minOf(maxValidHealth, this.health + healingAmount)
+    }
+
 }
