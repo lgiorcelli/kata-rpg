@@ -1,12 +1,16 @@
 package katas.rpg
 
 class RPGCharacter(
-        var health: Int = 1000,
+        health: Int = 1000,
         val level: Int = 1,
         val damageAmount: Int = 100,
         private val healingAmount: Int = 100,
         private val maxValidHealth: Int = 1000
 ) {
+    var health = health
+        private set
+
+
     fun isAlive(): Boolean {
         return health > 0
     }
