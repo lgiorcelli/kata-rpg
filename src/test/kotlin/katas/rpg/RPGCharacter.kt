@@ -3,10 +3,14 @@ package katas.rpg
 class RPGCharacter(
         health: Int = 1000,
         val level: Int = 1,
-        val damageAmount: Int = 100,
+        damageAmount: Int = 100,
         private val healingAmount: Int = 100,
-        private val maxValidHealth: Int = 1000
+        private val maxValidHealth: Int = 1000,
+        maxRange:Int = 1,
+        private val attackType:MeleeAttackType = MeleeAttackType(damageAmount, maxRange)
 ) {
+
+
     var health = health
         private set
 
@@ -15,21 +19,28 @@ class RPGCharacter(
         return health > 0
     }
 
-    fun attack(attacked: RPGCharacter) {
-        val realDamageAmount = calculateDamageAmount(attacked)
+    fun attack(attacked: RPGCharacter, distance: Int) {
+        val realDamageAmount = calculateDamageAmount(attacked, distance)
         if (attacked != this) {
             attacked.receiveDamage(realDamageAmount)
         }
     }
 
-    private fun calculateDamageAmount(attacked: RPGCharacter): Int {
+    private fun calculateDamageAmount(attacked: RPGCharacter, distance: Int): Int {
+        if (isOutOfRange(distance)) {
+            return 0
+        }
         if (attackerIsFiveLevelsAbove(attacked)) {
-            return (damageAmount * 1.5).toInt()
+            return (attackType.damageAmount * 1.5).toInt()
         }
         if (attackerIsFiveLevelsBelow(attacked)) {
-            return (damageAmount * 0.5).toInt()
+            return (attackType.damageAmount * 0.5).toInt()
         }
-        return damageAmount
+        return attackType.damageAmount
+    }
+
+    private fun isOutOfRange(distance: Int): Boolean {
+        return distance > attackType.maxRange
     }
 
     private fun attackerIsFiveLevelsBelow(attacked: RPGCharacter): Boolean {
@@ -47,5 +58,6 @@ class RPGCharacter(
     fun heal() {
         health = minOf(maxValidHealth, health + healingAmount)
     }
-
 }
+
+class MeleeAttackType(val damageAmount: Int, val maxRange: Int)

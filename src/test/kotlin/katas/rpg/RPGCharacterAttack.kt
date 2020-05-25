@@ -6,13 +6,15 @@ import kotlin.test.assertEquals
 
 class RPGCharacterAttack {
 
+    private val minimumRange = 1
+
     @Test
     fun `should deal damage to other character`() {
         val expectedHealth = 900
         val attacker = RPGCharacter()
         val attacked = RPGCharacter()
 
-        attacker.attack(attacked)
+        attacker.attack(attacked, minimumRange)
 
         with(attacked) {
             Assertions.assertEquals(expectedHealth, health)
@@ -24,7 +26,7 @@ class RPGCharacterAttack {
         val attacker = RPGCharacter()
         val initialHealth = attacker.health
 
-        attacker.attack(attacker)
+        attacker.attack(attacker, minimumRange)
 
         with(attacker) {
             Assertions.assertEquals(initialHealth, health)
@@ -34,11 +36,11 @@ class RPGCharacterAttack {
     @Test
     fun `should reduce its damage when target id 5 levels above`() {
         val reducedAttack = 50
-        val attacker = RPGCharacter(level = 1, damageAmount = 100)
+        val attacker = RPGCharacter(level = minimumRange, damageAmount = 100)
         val attackedInitialHealth = 1000
         val damaged = RPGCharacter(level = 6, health = attackedInitialHealth)
 
-        attacker.attack(damaged)
+        attacker.attack(damaged, minimumRange)
 
         with(damaged) {
             assertEquals(attackedInitialHealth - reducedAttack, health)
@@ -51,12 +53,27 @@ class RPGCharacterAttack {
         val damageAmount = 100
         val attacker = RPGCharacter(level = 6, damageAmount = damageAmount)
         val attackedInitialHealth = 1000
-        val damaged = RPGCharacter(level = 1, health = attackedInitialHealth)
+        val damaged = RPGCharacter(level = minimumRange, health = attackedInitialHealth)
 
-        attacker.attack(damaged)
+        attacker.attack(damaged, minimumRange)
 
         with(damaged) {
             assertEquals(attackedInitialHealth - damageAmount - levelDifferencePlus, health)
+        }
+    }
+
+    @Test
+    fun `an attacker to another character outside its range should not deal damage`() {
+        val initialHealth = 500
+        val range = 10
+
+        val attacker = RPGCharacter(maxRange = range)
+        val attacked = RPGCharacter(health = initialHealth)
+
+        attacker.attack(attacked, range + 1)
+
+        with(attacked) {
+            assertEquals(initialHealth, health)
         }
     }
 }

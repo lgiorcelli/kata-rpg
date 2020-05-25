@@ -24,7 +24,7 @@ class RPGCharacterTest {
         val attacker = RPGCharacter(damageAmount = 2000)
         val attacked = RPGCharacter()
 
-        attacker.attack(attacked)
+        attacker.attack(attacked, 1)
 
         with(attacked) {
             assertEquals(0, health)
