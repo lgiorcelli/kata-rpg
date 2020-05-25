@@ -10,45 +10,17 @@ class RPGCharacter(
         private val attackType:MeleeAttackType = MeleeAttackType(damageAmount, maxRange)
 ) {
 
-
     var health = health
         private set
-
 
     fun isAlive(): Boolean {
         return health > 0
     }
 
     fun attack(attacked: RPGCharacter, distance: Int) {
-        val realDamageAmount = calculateDamageAmount(attacked, distance)
         if (attacked != this) {
-            attacked.receiveDamage(realDamageAmount)
+            attacked.receiveDamage(attackType.calculateDamageAmount(this, attacked, distance))
         }
-    }
-
-    private fun calculateDamageAmount(attacked: RPGCharacter, distance: Int): Int {
-        if (isOutOfRange(distance)) {
-            return 0
-        }
-        if (attackerIsFiveLevelsAbove(attacked)) {
-            return (attackType.damageAmount * 1.5).toInt()
-        }
-        if (attackerIsFiveLevelsBelow(attacked)) {
-            return (attackType.damageAmount * 0.5).toInt()
-        }
-        return attackType.damageAmount
-    }
-
-    private fun isOutOfRange(distance: Int): Boolean {
-        return distance > attackType.maxRange
-    }
-
-    private fun attackerIsFiveLevelsBelow(attacked: RPGCharacter): Boolean {
-        return attacked.level >= this.level + 5
-    }
-
-    private fun attackerIsFiveLevelsAbove(attacked: RPGCharacter): Boolean {
-        return this.level >= attacked.level + 5
     }
 
     private fun receiveDamage(damageAmount: Int) {
@@ -60,4 +32,32 @@ class RPGCharacter(
     }
 }
 
-class MeleeAttackType(val damageAmount: Int, val maxRange: Int)
+class MeleeAttackType(private val damageAmount: Int, private val maxRange: Int) {
+
+    fun calculateDamageAmount(attacker:RPGCharacter, attacked: RPGCharacter, distance: Int): Int {
+        if (isOutOfRange(distance)) {
+            return 0
+        }
+        if (attackerIsFiveLevelsAbove(attacker, attacked)) {
+            return (damageAmount * 1.5).toInt()
+        }
+        if (attackerIsFiveLevelsBelow(attacker, attacked)) {
+            return (damageAmount * 0.5).toInt()
+        }
+        return damageAmount
+    }
+
+
+    private fun isOutOfRange(distance: Int): Boolean {
+        return distance > maxRange
+    }
+
+    private fun attackerIsFiveLevelsBelow(attacker: RPGCharacter, attacked: RPGCharacter): Boolean {
+        return attacked.level >= attacker.level + 5
+    }
+
+    private fun attackerIsFiveLevelsAbove(attacker:RPGCharacter, attacked: RPGCharacter): Boolean {
+        return attacker.level >= attacked.level + 5
+    }
+
+}
