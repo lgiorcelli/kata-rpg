@@ -1,5 +1,6 @@
 package katas.rpg
 
+import katas.rpg.model.RPGCharacter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
