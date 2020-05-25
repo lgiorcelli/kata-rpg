@@ -32,6 +32,19 @@ class RPGCharacterTest {
     }
 
     @Test
+    fun `should not deal damage to itself`() {
+        val attacker = RPGCharacter()
+        val initialHealth = attacker.health
+
+        attacker.attack(attacker)
+
+        with(attacker) {
+            assertEquals(initialHealth, health)
+        }
+    }
+
+
+    @Test
     fun `should limit minimun health to zero`() {
         val attacker = RPGCharacter(damageAmount = 2000)
         val attacked = RPGCharacter()
@@ -45,25 +58,23 @@ class RPGCharacterTest {
 
     @Test
     fun `should be capable of healing another character`() {
-        val healer = RPGCharacter(healingAmount = 100)
-        val damagedCharacter = RPGCharacter(health = 500)
+        val healed = RPGCharacter(health = 200, healingAmount = 100)
 
-        healer.heal(damagedCharacter)
+        healed.heal()
 
-        with(damagedCharacter) {
-            assertEquals(600, health)
+        with(healed) {
+            assertEquals(300, health)
         }
     }
 
     @Test
-    fun `should be capable of healing another character until max healing value`() {
+    fun `should be capable of healing itself character until max healing value`() {
         val maxValidHealth = 1000
-        val healer = RPGCharacter(healingAmount = 1000)
-        val damagedCharacter = RPGCharacter(health = 500)
+        val healer = RPGCharacter(healingAmount = 1000, health = 500)
 
-        healer.heal(damagedCharacter)
+        healer.heal()
 
-        with(damagedCharacter) {
+        with(healer) {
             assertEquals(maxValidHealth, health)
         }
     }
@@ -75,26 +86,24 @@ class RPGCharacter(
         val level: Int = 1,
         val damageAmount: Int = 100,
         private val healingAmount: Int = 100,
-        private val maxValidHealth:Int = 1000
+        private val maxValidHealth: Int = 1000
 ) {
     fun isAlive(): Boolean {
         return health > 0
     }
 
     fun attack(attacked: RPGCharacter) {
-        attacked.receiveDamage(damageAmount)
+        if (attacked != this) {
+            attacked.receiveDamage(damageAmount)
+        }
     }
 
     private fun receiveDamage(damageAmount: Int) {
         health = maxOf(0, health - damageAmount)
     }
 
-    fun heal(damagedCharacter: RPGCharacter) {
-        damagedCharacter.beHealed(healingAmount)
-    }
-
-    private fun beHealed(healingAmount: Int) {
-        this.health = minOf(maxValidHealth, this.health + healingAmount)
+    fun heal() {
+        health = minOf(maxValidHealth, health + healingAmount)
     }
 
 }
