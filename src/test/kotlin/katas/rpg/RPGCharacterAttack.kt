@@ -2,6 +2,7 @@ package katas.rpg
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class RPGCharacterAttack {
 
@@ -27,6 +28,20 @@ class RPGCharacterAttack {
 
         with(attacker) {
             Assertions.assertEquals(initialHealth, health)
+        }
+    }
+
+    @Test
+    fun `should reduce its damage when target id 5 levels above`() {
+        val reducedAttack = 50
+        val attacker = RPGCharacter(level = 1, damageAmount = 100)
+        val attackedInitialHealth = 1000
+        val damaged = RPGCharacter(level = 6, health = attackedInitialHealth)
+
+        attacker.attack(damaged)
+
+        with(damaged) {
+            assertEquals(attackedInitialHealth - reducedAttack, health)
         }
     }
 }

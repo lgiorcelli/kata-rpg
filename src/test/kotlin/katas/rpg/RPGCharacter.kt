@@ -12,9 +12,17 @@ class RPGCharacter(
     }
 
     fun attack(attacked: RPGCharacter) {
+        val realDamageAmount = calculateDamageAmount(attacked)
         if (attacked != this) {
-            attacked.receiveDamage(damageAmount)
+            attacked.receiveDamage(realDamageAmount)
         }
+    }
+
+    private fun calculateDamageAmount(attacked: RPGCharacter): Int {
+        if (attacked.level >= 5 + this.level) {
+            return (damageAmount * 0.5).toInt()
+        }
+        return damageAmount
     }
 
     private fun receiveDamage(damageAmount: Int) {
