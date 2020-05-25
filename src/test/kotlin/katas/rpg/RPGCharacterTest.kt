@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 
 class RPGCharacterTest {
 
-
     @Test
     fun `should create a character with health and alive`() {
         val character = RPGCharacter()
@@ -18,30 +17,6 @@ class RPGCharacterTest {
         }
     }
 
-    @Test
-    fun `should deal damage to other character`() {
-        val expectedHealth = 900
-        val attacker = RPGCharacter()
-        val attacked = RPGCharacter()
-
-        attacker.attack(attacked)
-
-        with(attacked) {
-            assertEquals(expectedHealth, health)
-        }
-    }
-
-    @Test
-    fun `should not deal damage to itself`() {
-        val attacker = RPGCharacter()
-        val initialHealth = attacker.health
-
-        attacker.attack(attacker)
-
-        with(attacker) {
-            assertEquals(initialHealth, health)
-        }
-    }
 
 
     @Test
@@ -81,29 +56,3 @@ class RPGCharacterTest {
 
 }
 
-class RPGCharacter(
-        var health: Int = 1000,
-        val level: Int = 1,
-        val damageAmount: Int = 100,
-        private val healingAmount: Int = 100,
-        private val maxValidHealth: Int = 1000
-) {
-    fun isAlive(): Boolean {
-        return health > 0
-    }
-
-    fun attack(attacked: RPGCharacter) {
-        if (attacked != this) {
-            attacked.receiveDamage(damageAmount)
-        }
-    }
-
-    private fun receiveDamage(damageAmount: Int) {
-        health = maxOf(0, health - damageAmount)
-    }
-
-    fun heal() {
-        health = minOf(maxValidHealth, health + healingAmount)
-    }
-
-}
