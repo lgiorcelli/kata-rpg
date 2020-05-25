@@ -19,10 +19,21 @@ class RPGCharacter(
     }
 
     private fun calculateDamageAmount(attacked: RPGCharacter): Int {
-        if (attacked.level >= 5 + this.level) {
+        if (attackerIsFiveLevelsAbove(attacked)) {
+            return (damageAmount * 1.5).toInt()
+        }
+        if (attackerIsFiveLevelsBelow(attacked)) {
             return (damageAmount * 0.5).toInt()
         }
         return damageAmount
+    }
+
+    private fun attackerIsFiveLevelsBelow(attacked: RPGCharacter): Boolean {
+        return attacked.level >= this.level + 5
+    }
+
+    private fun attackerIsFiveLevelsAbove(attacked: RPGCharacter): Boolean {
+        return this.level >= attacked.level + 5
     }
 
     private fun receiveDamage(damageAmount: Int) {
