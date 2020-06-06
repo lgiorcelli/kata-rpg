@@ -1,90 +1,83 @@
 package katas.rpg
 
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import katas.rpg.model.AttackModule
-import katas.rpg.model.RPGCharacter
+import katas.rpg.model.LeveledCharacter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class AttackModuleTest {
 
     private val minimumRange = 1
+    private val baseDamage = 100
+
+    private val module = AttackModule(baseDamage, minimumRange)
+
 
     @Test
     fun `should deal damage to other character`() {
-        val attacker = aCharacter()
-        val attacked = aCharacter()
+        val attacker = aLevelOneCharacter()
+        val attacked = aLevelOneCharacter()
 
-        val module = AttackModule(100, minimumRange)
+        val module = AttackModule(baseDamage, minimumRange)
         val damage = module.calculateDamageAmount(attacker, attacked, minimumRange)
 
-        Assertions.assertEquals(100, damage)
+        Assertions.assertEquals(baseDamage, damage)
     }
 
     @Test
     fun `should not deal damage to itself`() {
-        val attacker = aCharacter()
-        val initialHealth = attacker.health
+        val attacker: LeveledCharacter = aLevelOneCharacter()
 
-        attacker.attack(attacker, minimumRange)
+        val damageAmount = module.calculateDamageAmount(attacker, attacker, minimumRange)
 
-        with(attacker) {
-            Assertions.assertEquals(initialHealth, health)
-        }
+        Assertions.assertEquals(0, damageAmount)
+
     }
 
     @Test
     fun `should reduce its damage when target id 5 levels above`() {
         val reducedAttack = 50
-        val attacker = aLowLevelCharacter()
-        val damaged = aHighLevelCharacter()
-        val attackedInitialHealth = damaged.health
+        val attacker: LeveledCharacter = aLevelOneCharacter()
+        val damaged: LeveledCharacter = aLevelSixCharacter()
 
-        attacker.attack(damaged, minimumRange)
+        val damageAmount = module.calculateDamageAmount(attacker, damaged, minimumRange)
 
-        with(damaged) {
-            assertEquals(attackedInitialHealth - reducedAttack, health)
-        }
+        Assertions.assertEquals(reducedAttack, damageAmount)
     }
 
     @Test
     fun `should increase its damage when target id 5 levels below`() {
         val levelDifferencePlus = 50
-        val attacker = aHighLevelCharacter()
-        val damaged = aLowLevelCharacter()
-        val attackedInitialHealth = damaged.health
+        val attacker = aLevelSixCharacter()
+        val damaged = aLevelOneCharacter()
 
-        attacker.attack(damaged, minimumRange)
+        val damageAmount = module.calculateDamageAmount(attacker, damaged, minimumRange)
 
-        with(damaged) {
-            assertEquals(attackedInitialHealth - 100 - levelDifferencePlus, health)
-        }
+        Assertions.assertEquals(baseDamage + levelDifferencePlus, damageAmount)
     }
 
     @Test
     fun `an attacker to another character outside its range should not deal damage`() {
+        val attacker = aLevelOneCharacter()
+        val attacked = aLevelOneCharacter()
 
-        val attacker = aLowLevelCharacter()
-        val range = attacker.range
-        val attacked = aLowLevelCharacter()
-        val initialHealth = attacked.health
+        val damageAmount = module.calculateDamageAmount(attacker, attacked, minimumRange + 1)
 
-        attacker.attack(attacked, range + 1)
-
-        with(attacked) {
-            assertEquals(initialHealth, health)
-        }
+        Assertions.assertEquals(0, damageAmount)
     }
 
-    private fun aCharacter(): RPGCharacter {
-        return CharacterMother.aCharacter()
+    private fun aLevelOneCharacter(): LeveledCharacter {
+        val character: LeveledCharacter = mock()
+        whenever(character.level).thenReturn(1)
+        return character
     }
 
-    private fun aHighLevelCharacter(): RPGCharacter {
-        return RPGCharacter(level = 6, attackModule = AttackModule(100, minimumRange))
+    private fun aLevelSixCharacter(): LeveledCharacter {
+        val character: LeveledCharacter = mock()
+        whenever(character.level).thenReturn(6)
+        return character
     }
 
-    private fun aLowLevelCharacter(): RPGCharacter {
-        return RPGCharacter(level = 1, attackModule = AttackModule(100, minimumRange))
-    }
 }

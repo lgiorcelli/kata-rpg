@@ -3,7 +3,7 @@ package katas.rpg.model
 class AttackModule(private val baseDamageAmount: Int, val maxReachingRange: Int) {
 
     fun calculateDamageAmount(attacker: LeveledCharacter, attacked: LeveledCharacter, distance: Int): Int {
-        if (isOutOfRange(distance)) {
+        if (isOutOfRange(distance) || isSameCharacter(attacker, attacked)) {
             return 0
         }
         if (attackerIsFiveLevelsAbove(attacker, attacked)) {
@@ -13,6 +13,10 @@ class AttackModule(private val baseDamageAmount: Int, val maxReachingRange: Int)
             return (baseDamageAmount * 0.5).toInt()
         }
         return baseDamageAmount
+    }
+
+    private fun isSameCharacter(attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
+        return attacker == attacked
     }
 
 
