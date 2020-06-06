@@ -1,9 +1,5 @@
 package katas.rpg.model
 
-interface LeveledCharacter {
-    val level: Int
-}
-
 class RPGCharacter(
         health: Int = 1000,
         override val level: Int = 1,
@@ -11,10 +7,6 @@ class RPGCharacter(
         private val maxValidHealth: Int = 1000,
         private val attackModule: AttackModule
 ) : LeveledCharacter {
-
-    val range: Int
-        get() = attackModule.maxReachingRange
-
 
     var health = health
         private set
@@ -24,9 +16,7 @@ class RPGCharacter(
     }
 
     fun attack(attacked: RPGCharacter, distance: Int) {
-        if (attacked != this) {
-            attacked.receiveDamage(attackModule.calculateDamageAmount(this, attacked, distance))
-        }
+        attacked.receiveDamage(attackModule.calculateDamageAmount(this, attacked, distance))
     }
 
     private fun receiveDamage(damageAmount: Int) {

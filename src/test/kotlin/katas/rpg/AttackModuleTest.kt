@@ -11,9 +11,9 @@ class AttackModuleTest {
 
     private val minimumRange = 1
     private val baseDamage = 100
+    private val noDamage = 0
 
     private val module = AttackModule(baseDamage, minimumRange)
-
 
     @Test
     fun `should deal damage to other character`() {
@@ -32,7 +32,7 @@ class AttackModuleTest {
 
         val damageAmount = module.calculateDamageAmount(attacker, attacker, minimumRange)
 
-        Assertions.assertEquals(0, damageAmount)
+        Assertions.assertEquals(noDamage, damageAmount)
 
     }
 
@@ -65,7 +65,7 @@ class AttackModuleTest {
 
         val damageAmount = module.calculateDamageAmount(attacker, attacked, minimumRange + 1)
 
-        Assertions.assertEquals(0, damageAmount)
+        Assertions.assertEquals(noDamage, damageAmount)
     }
 
     private fun aLevelOneCharacter(): LeveledCharacter {
