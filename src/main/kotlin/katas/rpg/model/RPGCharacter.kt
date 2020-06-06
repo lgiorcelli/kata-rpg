@@ -7,7 +7,7 @@ class RPGCharacter(
         private val healingAmount: Int = 100,
         private val maxValidHealth: Int = 1000,
         maxRange: Int = 1,
-        private val attackType: MeleeAttackType = MeleeAttackType(damageAmount, maxRange)
+        private val attackType: MeleeAttackType
 ) {
 
     val range: Int

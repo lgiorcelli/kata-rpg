@@ -25,7 +25,7 @@ class RPGCharacterTest {
 
     @Test
     fun `should limit minimun health to zero`() {
-        val attacker = RPGCharacter(damageAmount = 2000)
+        val attacker = RPGCharacter(damageAmount = 2000, attackType = MeleeAttackType(2000, 1))
         val attacked = CharacterMother.aCharacter()
 
         attacker.attack(attacked, 1)
@@ -37,7 +37,7 @@ class RPGCharacterTest {
 
     @Test
     fun `should be capable of healing another character`() {
-        val healed = RPGCharacter(health = 200, healingAmount = 100)
+        val healed = RPGCharacter(health = 200, healingAmount = 100, attackType =  MeleeAttackType(100, 1))
 
         healed.heal()
 
@@ -49,7 +49,7 @@ class RPGCharacterTest {
     @Test
     fun `should be capable of healing itself character until max healing value`() {
         val maxValidHealth = 1000
-        val healer = RPGCharacter(healingAmount = 1000, health = 500)
+        val healer = RPGCharacter(healingAmount = 1000, health = 500, attackType = MeleeAttackType(100, 1))
 
         healer.heal()
 
@@ -62,7 +62,7 @@ class RPGCharacterTest {
     fun `should delegate attack to its type`() {
         val attackType: MeleeAttackType = mock()
         val attacker = RPGCharacter(attackType = attackType)
-        val attacked = RPGCharacter()
+        val attacked = RPGCharacter(attackType = mock())
 
         attacker.attack(attacked, 1)
 
