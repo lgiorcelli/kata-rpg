@@ -1,11 +1,11 @@
 package katas.rpg
 
-import katas.rpg.model.AttackModule
 import katas.rpg.model.RPGCharacter
+import katas.rpg.model.RPGCharacterFactory
 
 object CharacterMother {
     fun aCharacter(): RPGCharacter {
-        return RPGCharacter(attackModule = AttackModule(100, 1))
+        return RPGCharacterFactory().createMeleeFighter()
     }
 
 }
