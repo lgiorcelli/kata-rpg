@@ -1,12 +1,16 @@
 package katas.rpg.model
 
+interface LeveledCharacter {
+    val level: Int
+}
+
 class RPGCharacter(
         health: Int = 1000,
-        val level: Int = 1,
+        override val level: Int = 1,
         private val healingAmount: Int = 100,
         private val maxValidHealth: Int = 1000,
         private val attackModule: AttackModule
-) {
+) : LeveledCharacter {
 
     val range: Int
         get() = attackModule.maxReachingRange

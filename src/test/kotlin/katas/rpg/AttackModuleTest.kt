@@ -6,22 +6,19 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class AttackTypeTest {
+class AttackModuleTest {
 
     private val minimumRange = 1
 
     @Test
     fun `should deal damage to other character`() {
-        val expectedHealth = 900
-
         val attacker = aCharacter()
         val attacked = aCharacter()
 
-        attacker.attack(attacked, minimumRange)
+        val module = AttackModule(100, minimumRange)
+        val damage = module.calculateDamageAmount(attacker, attacked, minimumRange)
 
-        with(attacked) {
-            Assertions.assertEquals(expectedHealth, health)
-        }
+        Assertions.assertEquals(100, damage)
     }
 
     @Test
