@@ -6,9 +6,13 @@ class RPGCharacter(
         damageAmount: Int = 100,
         private val healingAmount: Int = 100,
         private val maxValidHealth: Int = 1000,
-        maxRange:Int = 1,
+        maxRange: Int = 1,
         private val attackType: MeleeAttackType = MeleeAttackType(damageAmount, maxRange)
 ) {
+
+    val range: Int
+        get() = attackType.maxRange
+
 
     var health = health
         private set

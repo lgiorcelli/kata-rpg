@@ -1,6 +1,6 @@
 package katas.rpg.model
 
-class MeleeAttackType(private val damageAmount: Int, private val maxRange: Int) {
+class MeleeAttackType(private val damageAmount: Int, val maxRange: Int) {
 
     fun calculateDamageAmount(attacker: RPGCharacter, attacked: RPGCharacter, distance: Int): Int {
         if (isOutOfRange(distance)) {
