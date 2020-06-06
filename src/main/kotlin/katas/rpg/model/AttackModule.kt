@@ -1,23 +1,23 @@
 package katas.rpg.model
 
-class MeleeAttackType(private val damageAmount: Int, val maxRange: Int) {
+class AttackModule(private val baseDamageAmount: Int, val maxReachingRange: Int) {
 
     fun calculateDamageAmount(attacker: RPGCharacter, attacked: RPGCharacter, distance: Int): Int {
         if (isOutOfRange(distance)) {
             return 0
         }
         if (attackerIsFiveLevelsAbove(attacker, attacked)) {
-            return (damageAmount * 1.5).toInt()
+            return (baseDamageAmount * 1.5).toInt()
         }
         if (attackerIsFiveLevelsBelow(attacker, attacked)) {
-            return (damageAmount * 0.5).toInt()
+            return (baseDamageAmount * 0.5).toInt()
         }
-        return damageAmount
+        return baseDamageAmount
     }
 
 
     private fun isOutOfRange(distance: Int): Boolean {
-        return distance > maxRange
+        return distance > maxReachingRange
     }
 
     private fun attackerIsFiveLevelsBelow(attacker: RPGCharacter, attacked: RPGCharacter): Boolean {

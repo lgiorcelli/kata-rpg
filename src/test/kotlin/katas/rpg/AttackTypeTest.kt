@@ -1,6 +1,6 @@
 package katas.rpg
 
-import katas.rpg.model.MeleeAttackType
+import katas.rpg.model.AttackModule
 import katas.rpg.model.RPGCharacter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -13,6 +13,7 @@ class AttackTypeTest {
     @Test
     fun `should deal damage to other character`() {
         val expectedHealth = 900
+
         val attacker = aCharacter()
         val attacked = aCharacter()
 
@@ -83,10 +84,10 @@ class AttackTypeTest {
     }
 
     private fun aHighLevelCharacter(): RPGCharacter {
-        return RPGCharacter(level = 6, damageAmount = 100, attackType = MeleeAttackType(100, minimumRange))
+        return RPGCharacter(level = 6, attackModule = AttackModule(100, minimumRange))
     }
 
     private fun aLowLevelCharacter(): RPGCharacter {
-        return RPGCharacter(level = 1, damageAmount = 100, attackType = MeleeAttackType(100, minimumRange))
+        return RPGCharacter(level = 1, attackModule = AttackModule(100, minimumRange))
     }
 }

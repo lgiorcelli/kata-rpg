@@ -3,15 +3,13 @@ package katas.rpg.model
 class RPGCharacter(
         health: Int = 1000,
         val level: Int = 1,
-        damageAmount: Int = 100,
         private val healingAmount: Int = 100,
         private val maxValidHealth: Int = 1000,
-        maxRange: Int = 1,
-        private val attackType: MeleeAttackType
+        private val attackModule: AttackModule
 ) {
 
     val range: Int
-        get() = attackType.maxRange
+        get() = attackModule.maxReachingRange
 
 
     var health = health
@@ -23,7 +21,7 @@ class RPGCharacter(
 
     fun attack(attacked: RPGCharacter, distance: Int) {
         if (attacked != this) {
-            attacked.receiveDamage(attackType.calculateDamageAmount(this, attacked, distance))
+            attacked.receiveDamage(attackModule.calculateDamageAmount(this, attacked, distance))
         }
     }
 
