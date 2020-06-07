@@ -9,7 +9,7 @@ class AttackModule(
 ) {
 
     fun calculateDamageAmount(attacker: LeveledCharacter, attacked: LeveledCharacter, distance: Int): Int {
-        if (isOutOfRange(distance) || isSameCharacter(attacker, attacked)) {
+        if (shouldNotDealDamage(distance, attacker, attacked)) {
             return 0
         }
         if (attackerIsFiveLevelsAbove(attacker, attacked)) {
@@ -19,6 +19,10 @@ class AttackModule(
             return (baseDamageAmount * 0.5).toInt()
         }
         return baseDamageAmount
+    }
+
+    private fun shouldNotDealDamage(distance: Int, attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
+        return isOutOfRange(distance) || isSameCharacter(attacker, attacked) || factionService.belongsToSameFaction(attacker, attacked)
     }
 
     private fun isSameCharacter(attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {

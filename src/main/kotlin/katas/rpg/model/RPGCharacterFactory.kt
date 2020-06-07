@@ -1,6 +1,6 @@
 package katas.rpg.model
 
-import katas.rpg.model.faction.FactionService
+import katas.rpg.model.faction.DefaultFactionService
 
 class RPGCharacterFactory {
 
@@ -10,7 +10,7 @@ class RPGCharacterFactory {
 
     private val defaultHealingAmount = defaultAttackAmount
 
-    private val factionService = FactionService()
+    private val factionService = DefaultFactionService()
 
     fun createMeleeFighter(): RPGCharacter {
         val meleeAttackModule = AttackModule(defaultAttackAmount, 2, factionService)
