@@ -3,6 +3,7 @@ package katas.rpg.model
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import katas.rpg.CharacterMother
+import katas.rpg.model.attack.AttackModule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -35,7 +36,7 @@ class RPGCharacterTest {
 
     @Test
     fun `should be capable of healing another character`() {
-        val attackModule:AttackModule = mock()
+        val attackModule: AttackModule = mock()
         val healed = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule)
 
         healed.heal()

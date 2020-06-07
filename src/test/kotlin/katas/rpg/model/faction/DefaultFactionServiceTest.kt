@@ -33,7 +33,7 @@ class DefaultFactionServiceTest {
         service.addMemberToFaction(character, factionName)
         service.addMemberToFaction(otherCharacter, factionName)
 
-        val belongsToSameFaction = service.belongsToSameFaction(character, otherCharacter)
+        val belongsToSameFaction = service.areAllies(character, otherCharacter)
 
         Assertions.assertTrue(belongsToSameFaction)
     }
@@ -47,7 +47,7 @@ class DefaultFactionServiceTest {
         service.addMemberToFaction(character, factionName)
         service.addMemberToFaction(otherCharacter, otherFactionName)
 
-        val belongsToSameFaction = service.belongsToSameFaction(character, otherCharacter)
+        val belongsToSameFaction = service.areAllies(character, otherCharacter)
 
         Assertions.assertFalse(belongsToSameFaction)
     }

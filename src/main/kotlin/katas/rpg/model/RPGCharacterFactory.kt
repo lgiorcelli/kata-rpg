@@ -1,5 +1,6 @@
 package katas.rpg.model
 
+import katas.rpg.model.attack.AttackModule
 import katas.rpg.model.faction.DefaultFactionService
 
 class RPGCharacterFactory {

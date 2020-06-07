@@ -1,5 +1,7 @@
 package katas.rpg.model
 
+import katas.rpg.model.attack.AttackModule
+
 class RPGCharacter(
         health: Int = 1000,
         override val level: Int = 1,

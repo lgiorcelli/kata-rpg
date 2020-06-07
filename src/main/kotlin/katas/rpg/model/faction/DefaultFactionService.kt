@@ -3,7 +3,7 @@ package katas.rpg.model.faction
 import katas.rpg.model.LeveledCharacter
 
 interface FactionService {
-    fun belongsToSameFaction(attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean
+    fun areAllies(character: LeveledCharacter, otherCharacter: LeveledCharacter): Boolean
     fun addMemberToFaction(character: LeveledCharacter, factionName: String)
     fun belongsToFaction(character: LeveledCharacter, factionName: String): Boolean
 }
@@ -11,9 +11,9 @@ interface FactionService {
 class DefaultFactionService : FactionService {
     private val factions: MutableMap<String, List<LeveledCharacter>> = mutableMapOf()
 
-    override fun belongsToSameFaction(attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
-        val firstSetOfFactions = factionsOf(attacker)
-        val secondSetOfFactions = factionsOf(attacked)
+    override fun areAllies(character: LeveledCharacter, otherCharacter: LeveledCharacter): Boolean {
+        val firstSetOfFactions = factionsOf(character)
+        val secondSetOfFactions = factionsOf(otherCharacter)
         return firstSetOfFactions.intersect(secondSetOfFactions).isNotEmpty()
     }
 

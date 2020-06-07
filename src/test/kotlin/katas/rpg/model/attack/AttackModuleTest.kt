@@ -1,8 +1,7 @@
-package katas.rpg
+package katas.rpg.model.attack
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import katas.rpg.model.AttackModule
 import katas.rpg.model.LeveledCharacter
 import katas.rpg.model.faction.FactionService
 import org.junit.jupiter.api.Assertions
@@ -70,8 +69,8 @@ class AttackModuleTest {
     }
 
     private fun givenBothCharactersBelongsToSameFaction(attacker: LeveledCharacter, attacked: LeveledCharacter) {
-        whenever(factionService.belongsToSameFaction(attacker, attacked)).thenReturn(true)
-        whenever(factionService.belongsToSameFaction(attacked, attacker)).thenReturn(true)
+        whenever(factionService.areAllies(attacker, attacked)).thenReturn(true)
+        whenever(factionService.areAllies(attacked, attacker)).thenReturn(true)
     }
 
     @Test

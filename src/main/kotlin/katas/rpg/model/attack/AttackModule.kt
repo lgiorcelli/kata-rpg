@@ -1,5 +1,6 @@
-package katas.rpg.model
+package katas.rpg.model.attack
 
+import katas.rpg.model.LeveledCharacter
 import katas.rpg.model.faction.FactionService
 
 class AttackModule(
@@ -22,7 +23,7 @@ class AttackModule(
     }
 
     private fun shouldNotDealDamage(distance: Int, attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
-        return isOutOfRange(distance) || isSameCharacter(attacker, attacked) || factionService.belongsToSameFaction(attacker, attacked)
+        return isOutOfRange(distance) || isSameCharacter(attacker, attacked) || factionService.areAllies(attacker, attacked)
     }
 
     private fun isSameCharacter(attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
