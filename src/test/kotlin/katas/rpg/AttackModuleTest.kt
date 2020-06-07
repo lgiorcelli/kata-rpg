@@ -4,7 +4,10 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import katas.rpg.model.AttackModule
 import katas.rpg.model.LeveledCharacter
+import katas.rpg.model.faction.Faction
+import katas.rpg.model.faction.FactionService
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class AttackModuleTest {
@@ -12,15 +15,15 @@ class AttackModuleTest {
     private val minimumRange = 1
     private val baseDamage = 100
     private val noDamage = 0
+    private val factionService = FactionService()
 
-    private val module = AttackModule(baseDamage, minimumRange)
+    private val module = AttackModule(baseDamage, minimumRange, factionService)
 
     @Test
     fun `should deal damage to other character`() {
         val attacker = aLevelOneCharacter()
         val attacked = aLevelOneCharacter()
 
-        val module = AttackModule(baseDamage, minimumRange)
         val damage = module.calculateDamageAmount(attacker, attacked, minimumRange)
 
         Assertions.assertEquals(baseDamage, damage)
@@ -64,6 +67,21 @@ class AttackModuleTest {
         val attacked = aLevelOneCharacter()
 
         val damageAmount = module.calculateDamageAmount(attacker, attacked, minimumRange + 1)
+
+        Assertions.assertEquals(noDamage, damageAmount)
+    }
+
+    @Test
+    @Disabled
+    fun `a member of the same faction should not damage each others`() {
+        val attacker = aLevelOneCharacter()
+        val attacked = aLevelOneCharacter()
+
+        val faction = Faction()
+        faction.receiveMember(attacked)
+        faction.receiveMember(attacker)
+
+        val damageAmount = module.calculateDamageAmount(attacker, attacked, minimumRange)
 
         Assertions.assertEquals(noDamage, damageAmount)
     }

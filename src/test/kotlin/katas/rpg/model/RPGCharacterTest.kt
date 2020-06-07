@@ -1,9 +1,8 @@
-package katas.rpg
+package katas.rpg.model
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import katas.rpg.model.AttackModule
-import katas.rpg.model.RPGCharacter
+import katas.rpg.CharacterMother
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -25,10 +24,9 @@ class RPGCharacterTest {
 
     @Test
     fun `should limit minimun health to zero`() {
-        val attacker = RPGCharacter(attackModule = AttackModule(2000, 1))
         val attacked = CharacterMother.aCharacter()
 
-        attacker.attack(attacked, 1)
+        attacked.receiveDamage(2000)
 
         with(attacked) {
             assertEquals(0, health)
@@ -37,7 +35,8 @@ class RPGCharacterTest {
 
     @Test
     fun `should be capable of healing another character`() {
-        val healed = RPGCharacter(health = 200, healingAmount = 100, attackModule =  AttackModule(100, 1))
+        val attackModule:AttackModule = mock()
+        val healed = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule)
 
         healed.heal()
 
@@ -49,7 +48,8 @@ class RPGCharacterTest {
     @Test
     fun `should be capable of healing itself character until max healing value`() {
         val maxValidHealth = 1000
-        val healer = RPGCharacter(health = 500, healingAmount = 1000, attackModule = AttackModule(100, 1))
+        val attackModule: AttackModule = mock()
+        val healer = RPGCharacter(health = 500, healingAmount = 1000, attackModule = attackModule)
 
         healer.heal()
 

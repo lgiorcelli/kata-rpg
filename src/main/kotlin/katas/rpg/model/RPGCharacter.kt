@@ -19,7 +19,7 @@ class RPGCharacter(
         attacked.receiveDamage(attackModule.calculateDamageAmount(this, attacked, distance))
     }
 
-    private fun receiveDamage(damageAmount: Int) {
+    internal fun receiveDamage(damageAmount: Int) {
         health = maxOf(0, health - damageAmount)
     }
 

@@ -1,6 +1,12 @@
 package katas.rpg.model
 
-class AttackModule(private val baseDamageAmount: Int, val maxReachingRange: Int) {
+import katas.rpg.model.faction.FactionService
+
+class AttackModule(
+        private val baseDamageAmount: Int,
+        private val maxReachingRange: Int,
+        private val factionService: FactionService
+) {
 
     fun calculateDamageAmount(attacker: LeveledCharacter, attacked: LeveledCharacter, distance: Int): Int {
         if (isOutOfRange(distance) || isSameCharacter(attacker, attacked)) {
