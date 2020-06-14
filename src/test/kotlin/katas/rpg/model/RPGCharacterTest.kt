@@ -4,6 +4,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import katas.rpg.CharacterMother
 import katas.rpg.model.attack.AttackModule
+import katas.rpg.model.healing.HealingModule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -39,7 +40,7 @@ class RPGCharacterTest {
     fun `should be capable of healing itself character until max healing value`() {
         val maxValidHealth = 1000
         val attackModule: AttackModule = mock()
-        val healer = RPGCharacter(health = 500, healingAmount = 1000, attackModule = attackModule)
+        val healer = RPGCharacter(health = 500, healingAmount = 1000, attackModule = attackModule, healingModule = HealingModule(1000))
 
         healer.heal()
 
@@ -51,8 +52,8 @@ class RPGCharacterTest {
     @Test
     fun `should delegate attack to its type`() {
         val attackModule: AttackModule = mock()
-        val attacker = RPGCharacter(attackModule = attackModule)
-        val attacked = RPGCharacter(attackModule = mock())
+        val attacker = RPGCharacter(attackModule = attackModule, healingModule = HealingModule())
+        val attacked = RPGCharacter(attackModule = mock(), healingModule = HealingModule())
 
         attacker.attack(attacked, 1)
 

@@ -25,7 +25,7 @@ class HealingModuleTest {
 
     @Test
     fun `should be capable of healing itself`() {
-        val healed = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule)
+        val healed = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule, healingModule = HealingModule(100))
 
         healed.heal()
 
@@ -36,7 +36,7 @@ class HealingModuleTest {
 
     @Test
     fun `a character should be capable of heal an ally`() {
-        val healer = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule)
+        val healer = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule, healingModule = HealingModule(100))
         val healed = CharacterMother.aCharacter()
         val initialHealth = healed.health
         givenBothCharactersAreAllies(healed, healer)
@@ -51,7 +51,7 @@ class HealingModuleTest {
 
     @Test
     fun `a character should not be capable of heal a non ally`() {
-        val healer = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule)
+        val healer = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule, healingModule = HealingModule(100))
         val healed = CharacterMother.aCharacter()
         givenBothCharactersAreNotAllies(healed, healer)
         healed.receiveDamage(1)
