@@ -28,6 +28,10 @@ class RPGCharacter(
     }
 
     fun heal() {
+        receiveHealth(healingAmount)
+    }
+
+    private fun receiveHealth(healingAmount: Int) {
         health = minOf(maxValidHealth, health + healingAmount)
     }
 
