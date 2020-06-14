@@ -34,17 +34,6 @@ class RPGCharacterTest {
         }
     }
 
-    @Test
-    fun `should be capable of healing another character`() {
-        val attackModule: AttackModule = mock()
-        val healed = RPGCharacter(health = 200, healingAmount = 100, attackModule = attackModule)
-
-        healed.heal()
-
-        with(healed) {
-            assertEquals(300, health)
-        }
-    }
 
     @Test
     fun `should be capable of healing itself character until max healing value`() {

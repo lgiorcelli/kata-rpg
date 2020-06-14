@@ -28,5 +28,11 @@ class RPGCharacter(
     fun heal() {
         health = minOf(maxValidHealth, health + healingAmount)
     }
+
+    fun heal(healed: RPGCharacter, areAllies: Boolean) {
+        if (areAllies) {
+            healed.heal()
+        }
+    }
 }
 
