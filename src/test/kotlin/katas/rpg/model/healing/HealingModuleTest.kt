@@ -1,18 +1,24 @@
 package katas.rpg.model.healing
 
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import katas.rpg.CharacterMother
 import katas.rpg.model.LeveledCharacter
 import katas.rpg.model.RPGCharacter
 import katas.rpg.model.attack.AttackModule
 import katas.rpg.model.faction.FactionService
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class HealingModuleTest {
+    @Mock
+    lateinit var healer: RPGCharacter
+    @Mock
+    lateinit var healed: RPGCharacter
     @Mock
     private lateinit var factionService: FactionService
     @Mock
@@ -21,47 +27,39 @@ class HealingModuleTest {
     @BeforeEach
     internal fun setUp() {
         MockitoAnnotations.initMocks(this)
+
     }
 
     @Test
     fun `should be capable of healing itself`() {
-        val healed = RPGCharacter(health = 200, attackModule = attackModule, healingModule = HealingModule(100))
+
+        val healingModule:HealingModule = mock()
+        val healed = RPGCharacter(health = 200, attackModule = attackModule, healingModule = healingModule)
 
         healed.heal()
 
-        with(healed) {
-            Assertions.assertEquals(300, health)
-        }
+        verify(healingModule).heal(healed, healed, true)
     }
 
     @Test
     fun `a character should be capable of heal an ally`() {
-        val healer = CharacterMother.aCharacter()
-        val healed = CharacterMother.aCharacter()
-        val initialHealth = healed.health
+        val healingModule = HealingModule(100)
+
         givenBothCharactersAreAllies(healed, healer)
-        healed.receiveDamage(1)
 
-        healer.heal(healed, true)
+        healingModule.heal(healer, healed, true)
 
-        with(healed) {
-            Assertions.assertEquals(initialHealth, health)
-        }
+        verify(healed).receiveHealth(100)
     }
 
     @Test
     fun `a character should not be capable of heal a non ally`() {
-        val healer = CharacterMother.aCharacter()
-        val healed = CharacterMother.aCharacter()
+        val healingModule = HealingModule(100)
         givenBothCharactersAreNotAllies(healed, healer)
-        healed.receiveDamage(1)
-        val expectedHealth = healed.health
 
-        healer.heal(healed, false)
+        healingModule.heal(healer, healed, false)
 
-        with(healed) {
-            Assertions.assertEquals(expectedHealth, health)
-        }
+        verify(healed, times(0)).receiveHealth(any())
     }
 
     private fun givenBothCharactersAreNotAllies(attacker: RPGCharacter, attacked: RPGCharacter) {

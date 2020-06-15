@@ -27,7 +27,7 @@ class RPGCharacter(
     }
 
     fun heal() {
-        receiveHealth(healingModule.healingAmount)
+        heal(this, true)
     }
 
     internal fun receiveHealth(healingAmount: Int) {
