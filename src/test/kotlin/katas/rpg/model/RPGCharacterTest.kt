@@ -40,7 +40,7 @@ class RPGCharacterTest {
     fun `should be capable of healing itself character until max healing value`() {
         val maxValidHealth = 1000
         val attackModule: AttackModule = mock()
-        val healer = RPGCharacter(health = 500, healingAmount = 1000, attackModule = attackModule, healingModule = HealingModule(1000))
+        val healer = RPGCharacter(health = 500, attackModule = attackModule, healingModule = HealingModule(1000))
 
         healer.heal()
 
@@ -50,7 +50,7 @@ class RPGCharacterTest {
     }
 
     @Test
-    fun `should delegate attack to its type`() {
+    fun `should delegate attack to its module`() {
         val attackModule: AttackModule = mock()
         val attacker = RPGCharacter(attackModule = attackModule, healingModule = HealingModule())
         val attacked = RPGCharacter(attackModule = mock(), healingModule = HealingModule())

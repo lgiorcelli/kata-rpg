@@ -6,7 +6,6 @@ import katas.rpg.model.healing.HealingModule
 class RPGCharacter(
         health: Int = 1000,
         override val level: Int = 1,
-        private val healingAmount: Int = 100,
         private val maxValidHealth: Int = 1000,
         private val attackModule: AttackModule,
         private val healingModule: HealingModule
@@ -28,10 +27,10 @@ class RPGCharacter(
     }
 
     fun heal() {
-        receiveHealth(healingAmount)
+        receiveHealth(healingModule.healingAmount)
     }
 
-    private fun receiveHealth(healingAmount: Int) {
+    internal fun receiveHealth(healingAmount: Int) {
         health = minOf(maxValidHealth, health + healingAmount)
     }
 
