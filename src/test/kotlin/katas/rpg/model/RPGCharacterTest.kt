@@ -23,7 +23,6 @@ class RPGCharacterTest {
     }
 
 
-
     @Test
     fun `should limit minimun health to zero`() {
         val attacked = CharacterMother.aCharacter()
@@ -39,10 +38,9 @@ class RPGCharacterTest {
     @Test
     fun `should be capable of healing itself character until max healing value`() {
         val maxValidHealth = 1000
-        val attackModule: AttackModule = mock()
-        val healer = RPGCharacter(health = 500, attackModule = attackModule, healingModule = HealingModule(1000))
+        val healer = CharacterMother.aCharacter()
 
-        healer.heal()
+        healer.receiveHealth(2 * maxValidHealth)
 
         with(healer) {
             assertEquals(maxValidHealth, health)
@@ -52,8 +50,9 @@ class RPGCharacterTest {
     @Test
     fun `should delegate attack to its module`() {
         val attackModule: AttackModule = mock()
-        val attacker = RPGCharacter(attackModule = attackModule, healingModule = HealingModule())
-        val attacked = RPGCharacter(attackModule = mock(), healingModule = HealingModule())
+        val healingModule: HealingModule = mock()
+        val attacker = RPGCharacter(attackModule = attackModule, healingModule = healingModule)
+        val attacked = RPGCharacter(attackModule = mock(), healingModule = healingModule)
 
         attacker.attack(attacked, 1)
 

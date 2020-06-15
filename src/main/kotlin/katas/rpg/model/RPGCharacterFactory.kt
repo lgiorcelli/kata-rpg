@@ -11,7 +11,7 @@ class RPGCharacterFactory(private val factionService: DefaultFactionService) {
     private val defaultAttackAmount = 100
 
     private val defaultHealingAmount = defaultAttackAmount
-    private val defaultHealingModule = HealingModule(defaultHealingAmount)
+    private val defaultHealingModule = HealingModule(defaultHealingAmount, factionService)
 
     fun createMeleeFighter(): RPGCharacter {
         val meleeAttackModule = AttackModule(defaultAttackAmount, 2, factionService)

@@ -38,26 +38,26 @@ class HealingModuleTest {
 
         healed.heal()
 
-        verify(healingModule).heal(healed, healed, true)
+        verify(healingModule).heal(healed, healed)
     }
 
     @Test
     fun `a character should be capable of heal an ally`() {
-        val healingModule = HealingModule(100)
+        val healingModule = HealingModule(100, factionService)
 
         givenBothCharactersAreAllies(healed, healer)
 
-        healingModule.heal(healer, healed, true)
+        healingModule.heal(healer, healed)
 
         verify(healed).receiveHealth(100)
     }
 
     @Test
     fun `a character should not be capable of heal a non ally`() {
-        val healingModule = HealingModule(100)
+        val healingModule = HealingModule(100, factionService)
         givenBothCharactersAreNotAllies(healed, healer)
 
-        healingModule.heal(healer, healed, false)
+        healingModule.heal(healer, healed)
 
         verify(healed, times(0)).receiveHealth(any())
     }

@@ -27,15 +27,15 @@ class RPGCharacter(
     }
 
     fun heal() {
-        heal(this, true)
+        heal(this)
     }
 
     internal fun receiveHealth(healingAmount: Int) {
         health = minOf(maxValidHealth, health + healingAmount)
     }
 
-    fun heal(healed: RPGCharacter, areAllies: Boolean) {
-        healingModule.heal(this, healed, areAllies)
+    private fun heal(healed: RPGCharacter) {
+        healingModule.heal(this, healed)
     }
 }
 

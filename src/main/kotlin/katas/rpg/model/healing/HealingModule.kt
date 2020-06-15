@@ -1,11 +1,15 @@
 package katas.rpg.model.healing
 
 import katas.rpg.model.RPGCharacter
+import katas.rpg.model.faction.FactionService
 
-class HealingModule(val healingAmount: Int = 100) {
+class HealingModule(
+        private val healingAmount: Int = 100,
+        private val factionService: FactionService
+) {
 
-    fun heal(rpgCharacter: RPGCharacter, healed: RPGCharacter, areAllies: Boolean) {
-        if (areAllies) {
+    fun heal(healer: RPGCharacter, healed: RPGCharacter) {
+        if (factionService.areAllies(healed, healer)) {
             healed.receiveHealth(healingAmount)
         }
     }
