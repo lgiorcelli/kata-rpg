@@ -1,5 +1,5 @@
 package katas.rpg.model
 
-interface LeveledCharacter {
+interface LeveledCharacter : Target {
     val level: Int
 }

@@ -11,18 +11,18 @@ class RPGCharacter(
         private val healingModule: HealingModule
 ) : LeveledCharacter {
 
-    var health = health
+    override var health = health
         private set
 
     fun isAlive(): Boolean {
         return health > 0
     }
 
-    fun attack(attacked: RPGCharacter, distance: Int) {
-        attacked.receiveDamage(attackModule.calculateDamageAmount(this, attacked, distance))
+    fun attack(target: Target, distance: Int) {
+        target.receiveDamage(attackModule.calculateDamageAmount(this, target, distance))
     }
 
-    internal fun receiveDamage(damageAmount: Int) {
+    override fun receiveDamage(damageAmount: Int) {
         health = maxOf(0, health - damageAmount)
     }
 

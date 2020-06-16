@@ -1,6 +1,7 @@
 package katas.rpg.model.attack
 
 import katas.rpg.model.LeveledCharacter
+import katas.rpg.model.Target
 import katas.rpg.model.faction.FactionService
 
 class AttackModule(
@@ -9,7 +10,11 @@ class AttackModule(
         private val factionService: FactionService
 ) {
 
-    fun calculateDamageAmount(attacker: LeveledCharacter, attacked: LeveledCharacter, distance: Int): Int {
+    fun calculateDamageAmount(attacker: LeveledCharacter, attacked: Target, distance: Int): Int {
+        if (isProp(attacked)) {
+            return baseDamageAmount
+        }
+        attacked as LeveledCharacter
         if (shouldNotDealDamage(distance, attacker, attacked)) {
             return 0
         }
@@ -20,6 +25,10 @@ class AttackModule(
             return (baseDamageAmount * 0.5).toInt()
         }
         return baseDamageAmount
+    }
+
+    private fun isProp(attacked: Target): Boolean {
+        return attacked !is LeveledCharacter
     }
 
     private fun shouldNotDealDamage(distance: Int, attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
