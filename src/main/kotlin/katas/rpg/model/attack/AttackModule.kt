@@ -10,18 +10,18 @@ class AttackModule(
         private val factionService: FactionService
 ) {
 
-    fun calculateDamageAmount(attacker: LeveledCharacter, attacked: Target, distance: Int): Int {
-        if (isProp(attacked)) {
+    fun calculateDamageAmount(attacker: LeveledCharacter, target: Target, distance: Int): Int {
+        if (isProp(target)) {
             return baseDamageAmount
         }
-        attacked as LeveledCharacter
-        if (shouldNotDealDamage(distance, attacker, attacked)) {
+        target as LeveledCharacter
+        if (shouldNotDealDamage(distance, attacker, target)) {
             return 0
         }
-        if (attackerIsFiveLevelsAbove(attacker, attacked)) {
+        if (attackerIsFiveLevelsAbove(attacker, target)) {
             return (baseDamageAmount * 1.5).toInt()
         }
-        if (attackerIsFiveLevelsBelow(attacker, attacked)) {
+        if (attackerIsFiveLevelsBelow(attacker, target)) {
             return (baseDamageAmount * 0.5).toInt()
         }
         return baseDamageAmount

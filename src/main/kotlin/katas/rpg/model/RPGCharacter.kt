@@ -2,20 +2,23 @@ package katas.rpg.model
 
 import katas.rpg.model.attack.AttackModule
 import katas.rpg.model.healing.HealingModule
+import katas.rpg.model.health.HealthModule
 
 class RPGCharacter(
         health: Int = 1000,
         override val level: Int = 1,
-        private val maxValidHealth: Int = 1000,
+        maxValidHealth: Int = 1000,
         private val attackModule: AttackModule,
         private val healingModule: HealingModule
 ) : LeveledCharacter {
+    private val healthModule = HealthModule(maxValidHealth, health)
 
-    override var health = health
-        private set
+    fun health(): Int {
+        return healthModule.currentHealth
+    }
 
     fun isAlive(): Boolean {
-        return health > 0
+        return healthModule.isAlive()
     }
 
     fun attack(target: Target, distance: Int) {
@@ -23,7 +26,7 @@ class RPGCharacter(
     }
 
     override fun receiveDamage(damageAmount: Int) {
-        health = maxOf(0, health - damageAmount)
+        healthModule.receiveDamage(damageAmount)
     }
 
     fun heal() {
@@ -31,7 +34,7 @@ class RPGCharacter(
     }
 
     internal fun receiveHealth(healingAmount: Int) {
-        health = minOf(maxValidHealth, health + healingAmount)
+        healthModule.heal(healingAmount)
     }
 
     private fun heal(healed: RPGCharacter) {

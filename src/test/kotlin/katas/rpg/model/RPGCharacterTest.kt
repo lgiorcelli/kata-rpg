@@ -8,6 +8,7 @@ import katas.rpg.model.healing.HealingModule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
 
 class RPGCharacterTest {
 
@@ -16,7 +17,7 @@ class RPGCharacterTest {
         val character = CharacterMother.aCharacter()
 
         with(character) {
-            assertEquals(1000, health)
+            assertEquals(1000, health())
             assertEquals(1, level)
             assertTrue(isAlive())
         }
@@ -30,7 +31,7 @@ class RPGCharacterTest {
         attacked.receiveDamage(2000)
 
         with(attacked) {
-            assertEquals(0, health)
+            assertEquals(0, health())
         }
     }
 
@@ -43,7 +44,7 @@ class RPGCharacterTest {
         healer.receiveHealth(2 * maxValidHealth)
 
         with(healer) {
-            assertEquals(maxValidHealth, health)
+            assertEquals(maxValidHealth, health())
         }
     }
 
@@ -57,6 +58,15 @@ class RPGCharacterTest {
         attacker.attack(attacked, 1)
 
         verify(attackModule).calculateDamageAmount(attacker, attacked, 1)
+    }
+
+    @Test
+    fun `when an attack surpasses its health, character must die`() {
+        val character = CharacterMother.aCharacter()
+
+        character.receiveDamage(character.health() * 2)
+
+        assertFalse(character.isAlive())
     }
 }
 
