@@ -1,17 +1,16 @@
 package katas.rpg.model
 
 import katas.rpg.model.attack.AttackModule
+import katas.rpg.model.attack.Target
 import katas.rpg.model.healing.HealingModule
 import katas.rpg.model.health.HealthModule
 
 class RPGCharacter(
-        health: Int = 1000,
         override val level: Int = 1,
-        maxValidHealth: Int = 1000,
         private val attackModule: AttackModule,
-        private val healingModule: HealingModule
+        private val healingModule: HealingModule,
+        private val healthModule: HealthModule
 ) : LeveledCharacter {
-    private val healthModule = HealthModule(maxValidHealth, health)
 
     fun health(): Int {
         return healthModule.currentHealth

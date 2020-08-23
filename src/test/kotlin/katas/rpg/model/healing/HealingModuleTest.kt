@@ -9,6 +9,7 @@ import katas.rpg.model.LeveledCharacter
 import katas.rpg.model.RPGCharacter
 import katas.rpg.model.attack.AttackModule
 import katas.rpg.model.faction.FactionService
+import katas.rpg.model.health.HealthModule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
@@ -34,7 +35,7 @@ class HealingModuleTest {
     fun `should be capable of healing itself`() {
 
         val healingModule:HealingModule = mock()
-        val healed = RPGCharacter(health = 200, attackModule = attackModule, healingModule = healingModule)
+        val healed = RPGCharacter(attackModule = attackModule, healingModule = healingModule, healthModule = HealthModule(1000, 200))
 
         healed.heal()
 

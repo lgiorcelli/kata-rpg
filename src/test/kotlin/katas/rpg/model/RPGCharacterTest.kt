@@ -5,6 +5,7 @@ import com.nhaarman.mockito_kotlin.verify
 import katas.rpg.CharacterMother
 import katas.rpg.model.attack.AttackModule
 import katas.rpg.model.healing.HealingModule
+import katas.rpg.model.health.HealthModule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -52,8 +53,8 @@ class RPGCharacterTest {
     fun `should delegate attack to its module`() {
         val attackModule: AttackModule = mock()
         val healingModule: HealingModule = mock()
-        val attacker = RPGCharacter(attackModule = attackModule, healingModule = healingModule)
-        val attacked = RPGCharacter(attackModule = mock(), healingModule = healingModule)
+        val attacker = RPGCharacter(attackModule = attackModule, healingModule = healingModule, healthModule = HealthModule(1000, 1000))
+        val attacked = RPGCharacter(attackModule = mock(), healingModule = healingModule, healthModule = HealthModule(1000, 1000))
 
         attacker.attack(attacked, 1)
 

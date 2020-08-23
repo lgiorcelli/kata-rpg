@@ -1,4 +1,4 @@
-package katas.rpg.model
+package katas.rpg.model.attack
 
 interface Target {
     fun receiveDamage(damageAmount: Int)

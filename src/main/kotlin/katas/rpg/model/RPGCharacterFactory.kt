@@ -3,6 +3,7 @@ package katas.rpg.model
 import katas.rpg.model.attack.AttackModule
 import katas.rpg.model.faction.DefaultFactionService
 import katas.rpg.model.healing.HealingModule
+import katas.rpg.model.health.HealthModule
 
 class RPGCharacterFactory(private val factionService: DefaultFactionService) {
 
@@ -25,6 +26,6 @@ class RPGCharacterFactory(private val factionService: DefaultFactionService) {
 
 
     private fun createCharacter(rangedAttackModule: AttackModule): RPGCharacter {
-        return RPGCharacter(defaultHealth, defaultLevel, defaultHealth, rangedAttackModule, defaultHealingModule)
+        return RPGCharacter(defaultLevel, rangedAttackModule, defaultHealingModule, HealthModule(defaultHealth, defaultHealth))
     }
 }

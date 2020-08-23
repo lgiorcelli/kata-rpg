@@ -1,7 +1,6 @@
 package katas.rpg.model.attack
 
 import katas.rpg.model.LeveledCharacter
-import katas.rpg.model.Target
 import katas.rpg.model.faction.FactionService
 
 class AttackModule(
