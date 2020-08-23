@@ -3,6 +3,7 @@ package katas.rpg.model.attack
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import katas.rpg.model.LeveledCharacter
+import katas.rpg.model.PropsFactory
 import katas.rpg.model.faction.FactionService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -20,6 +21,16 @@ class AttackModuleTest {
     fun `should deal damage to other character`() {
         val attacker = aLevelOneCharacter()
         val attacked = aLevelOneCharacter()
+
+        val damage = module.calculateDamageAmount(attacker, attacked, minimumRange)
+
+        Assertions.assertEquals(baseDamage, damage)
+    }
+
+    @Test
+    fun `should deal damage to a prop`() {
+        val attacker = aLevelOneCharacter()
+        val attacked = PropsFactory().createTree()
 
         val damage = module.calculateDamageAmount(attacker, attacked, minimumRange)
 

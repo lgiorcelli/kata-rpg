@@ -1,6 +1,7 @@
 package katas.rpg.model.attack
 
 import katas.rpg.model.LeveledCharacter
+import katas.rpg.model.Prop
 import katas.rpg.model.faction.FactionService
 
 class AttackModule(
@@ -27,7 +28,7 @@ class AttackModule(
     }
 
     private fun isProp(attacked: Target): Boolean {
-        return attacked !is LeveledCharacter
+        return attacked is Prop
     }
 
     private fun shouldNotDealDamage(distance: Int, attacker: LeveledCharacter, attacked: LeveledCharacter): Boolean {
